@@ -1,0 +1,18 @@
+{
+  "name": "@detonator/untrue",
+  "version": "1.0.0",
+  "description": "Integrate Detonator and Untrue.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iconshot/detonator-untrue.git"
+  },
+  "main": "index.js",
+  "keywords": [
+    "detonator",
+    "untrue"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "untrue": "^3.11.8"
+  }
+}
