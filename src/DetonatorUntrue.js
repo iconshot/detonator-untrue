@@ -6,7 +6,7 @@ class DetonatorUntrue {
 
     const self = this;
 
-    this.Provider = class DetonatorUntrueProvider extends Component {
+    this.Provider = class DetonatorProvider extends Component {
       constructor(props) {
         super(props);
 
@@ -59,11 +59,11 @@ class DetonatorUntrue {
       }
 
       handleMountStore = () => {
-        self.store.on("state", this.compareListener);
+        self.store.on("update", this.compareListener);
       };
 
       handleUnmountStore = () => {
-        self.store.off("state", this.compareListener);
+        self.store.off("update", this.compareListener);
       };
 
       compare() {
