@@ -1,6 +1,6 @@
 {
   "name": "@detonator/untrue",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Integrate Detonator and Untrue.",
   "repository": {
     "type": "git",
@@ -13,6 +13,6 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "untrue": "^3.11.8"
+    "untrue": "^3.11.9"
   }
 }
