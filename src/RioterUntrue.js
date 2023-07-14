@@ -1,12 +1,12 @@
 import { Component, Node } from "untrue";
 
-class DetonatorUntrue {
+class RioterUntrue {
   constructor() {
     this.store = null;
 
     const self = this;
 
-    this.Provider = class DetonatorProvider extends Component {
+    this.Provider = class RioterProvider extends Component {
       constructor(props) {
         super(props);
 
@@ -44,7 +44,7 @@ class DetonatorUntrue {
 
     // consistent with Wrapper.wrapContext
 
-    return class DetonatorSelector extends Component {
+    return class RioterSelector extends Component {
       constructor(props) {
         super(props);
 
@@ -107,4 +107,4 @@ class DetonatorUntrue {
   }
 }
 
-export default new DetonatorUntrue();
+export default new RioterUntrue();

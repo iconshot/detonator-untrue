@@ -1,14 +1,14 @@
 {
-  "name": "@detonator/untrue",
+  "name": "@rioter/untrue",
   "version": "1.0.2",
-  "description": "Integrate Detonator and Untrue.",
+  "description": "Integrate Rioter and Untrue.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iconshot/detonator-untrue.git"
+    "url": "https://github.com/iconshot/rioter-untrue.git"
   },
   "main": "index.js",
   "keywords": [
-    "detonator",
+    "rioter",
     "untrue"
   ],
   "license": "MIT",

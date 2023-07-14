@@ -1,3 +1,3 @@
-import DetonatorUntrue from "./src/DetonatorUntrue";
+import RioterUntrue from "./src/RioterUntrue";
 
-export default DetonatorUntrue;
+export default RioterUntrue;
