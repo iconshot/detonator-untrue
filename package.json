@@ -1,6 +1,6 @@
 {
   "name": "@rioter/untrue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Integrate Rioter and Untrue.",
   "repository": {
     "type": "git",
@@ -13,6 +13,6 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "untrue": "^3.11.9"
+    "untrue": "^4.0.5"
   }
 }
