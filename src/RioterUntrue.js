@@ -1,4 +1,4 @@
-import { Component, Node } from "untrue";
+import { Comparer, Component, Node } from "untrue";
 
 class RioterUntrue {
   constructor() {
@@ -70,7 +70,7 @@ class RioterUntrue {
         try {
           const result = this.select();
 
-          const updated = !this.compareDeep(result, this.result);
+          const updated = !Comparer.compareDeep(result, this.result);
 
           if (updated) {
             this.update();
