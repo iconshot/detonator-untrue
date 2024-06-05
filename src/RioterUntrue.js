@@ -66,34 +66,48 @@ class RioterUntrue {
         self.store.off("update", this.compareListener);
       };
 
-      compare() {
-        try {
-          const result = this.select();
-
-          const updated = !Comparer.compareDeep(result, this.result);
-
-          if (updated) {
-            this.update();
-          }
-        } catch (error) {}
-      }
-
       select() {
         const state = self.store.getState();
 
-        return selectors.reduce((result, selector) => {
-          const newProps = { ...this.props, ...result };
+        try {
+          return selectors.reduce((result, selector) => {
+            const newProps = { ...this.props, ...result };
 
-          const newResult = selector(state, newProps);
+            const newResult = selector(state, newProps);
 
-          return { ...result, ...newResult };
-        }, {});
+            return { ...result, ...newResult };
+          }, {});
+        } catch (error) {
+          queueMicrotask(() => {
+            throw error;
+          });
+
+          return null;
+        }
       }
 
       populate() {
-        try {
-          this.result = this.select();
-        } catch (error) {}
+        const result = this.select();
+
+        if (result === null) {
+          return;
+        }
+
+        this.result = result;
+      }
+
+      compare() {
+        const result = this.select();
+
+        if (result === null) {
+          return;
+        }
+
+        const updated = !Comparer.compareDeep(result, this.result);
+
+        if (updated) {
+          this.update();
+        }
       }
 
       render() {
