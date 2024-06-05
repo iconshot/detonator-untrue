@@ -91,9 +91,17 @@ class RioterUntrue {
 
         try {
           return selectors.reduce((result, selector) => {
+            if (result === null) {
+              return null;
+            }
+
             const newProps = { ...this.props, ...result };
 
             const newResult = selector(state, newProps);
+
+            if (newResult === null) {
+              return null;
+            }
 
             return { ...result, ...newResult };
           }, {});
