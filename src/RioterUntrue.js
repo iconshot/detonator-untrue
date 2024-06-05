@@ -12,29 +12,49 @@ class RioterUntrue {
 
         const { store, persistor = null } = this.props;
 
-        // no persistor = loaded
-
-        this.state = { loaded: persistor === null };
-
         self.store = store;
+
+        // has persistor = loading
+
+        const loading = persistor !== null;
+
+        this.state = { loading, error: false };
 
         // init persistor on mount
 
         this.on("mount", async () => {
-          if (persistor !== null) {
-            await persistor.init();
+          if (!loading) {
+            return;
+          }
 
-            this.updateState({ loaded: true });
+          try {
+            await persistor.init();
+          } catch (error) {
+            this.updateState({ error: true });
+
+            queueMicrotask(() => {
+              throw error;
+            });
+          } finally {
+            this.updateState({ loading: false });
           }
         });
       }
 
       render() {
-        const { loadingNode, children } = this.props;
+        const { loadingNode = null, errorNode = null, children } = this.props;
 
-        const { loaded } = this.state;
+        const { loading, error } = this.state;
 
-        return !loaded ? loadingNode : children;
+        if (error) {
+          return errorNode;
+        }
+
+        if (loading) {
+          return loadingNode;
+        }
+
+        return children;
       }
     };
   }
