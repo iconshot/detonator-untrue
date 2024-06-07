@@ -32,9 +32,7 @@ class RioterUntrue {
           } catch (error) {
             this.updateState({ error: true });
 
-            queueMicrotask(() => {
-              throw error;
-            });
+            throw error;
           } finally {
             this.updateState({ loading: false });
           }
@@ -68,13 +66,17 @@ class RioterUntrue {
       constructor(props) {
         super(props);
 
-        this.result = {};
+        this.result = null;
 
         this.on("mount", this.handleMountStore);
         this.on("unmount", this.handleUnmountStore);
 
+        this.compareTimeout = null;
+
         this.compareListener = () => {
-          this.compare();
+          clearTimeout(this.compareTimeout);
+
+          this.compareTimeout = setTimeout(() => this.compare());
         };
       }
 
@@ -89,59 +91,43 @@ class RioterUntrue {
       select() {
         const state = self.store.getState();
 
-        try {
-          return selectors.reduce((result, selector) => {
-            if (result === null) {
-              return null;
-            }
+        return selectors.reduce((result, selector) => {
+          if (result === null) {
+            return null;
+          }
 
-            const newProps = { ...this.props, ...result };
+          const newProps = { ...this.props, ...result };
 
-            const newResult = selector(state, newProps);
+          const newResult = selector(state, newProps);
 
-            if (newResult === null) {
-              return null;
-            }
+          if (newResult === null) {
+            return null;
+          }
 
-            return { ...result, ...newResult };
-          }, {});
-        } catch (error) {
-          queueMicrotask(() => {
-            throw error;
-          });
-
-          return null;
-        }
-      }
-
-      populate() {
-        const result = this.select();
-
-        if (result === null) {
-          return;
-        }
-
-        this.result = result;
+          return { ...result, ...newResult };
+        }, {});
       }
 
       compare() {
         const result = this.select();
 
-        if (result === null) {
+        const equal = Comparer.compare(result, this.result);
+
+        if (equal) {
           return;
         }
 
-        const updated = !Comparer.compareDeep(result, this.result);
-
-        if (updated) {
-          this.update();
-        }
+        this.update();
       }
 
       render() {
         const { children, ...props } = this.props;
 
-        this.populate();
+        this.result = this.select();
+
+        if (this.result === null) {
+          return null;
+        }
 
         return new Node(Child, { ...props, ...this.result }, children);
       }
